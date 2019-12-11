@@ -5,6 +5,9 @@
 #include "dense_flow.h"
 #include "opencv2/optflow.hpp"
 
+using namespace cv;
+using namespace optflow;
+
 void calcDenseFlow(std::string file_name, int bound, int type, int step,
                    std::vector<std::vector<uchar> >& output_x,
                    std::vector<std::vector<uchar> >& output_y,
@@ -18,7 +21,9 @@ void calcDenseFlow(std::string file_name, int bound, int type, int step,
     Mat capture_frame, capture_image, prev_image, capture_gray, prev_gray;
     Mat flow, flow_split[2];
 
-    cv::Ptr<cv::optflow::DualTVL1OpticalFlow> alg_tvl1 = cv::optflow::DualTVL1OpticalFlow::create();
+    // For compatibility with opencv3.x 
+    Ptr<DenseOpticalFlow> alg_tvl1;
+    alg_tvl1 = createOptFlow_DualTVL1(); 
 
     bool initialized = false;
     for(int iter = 0;; iter++){
